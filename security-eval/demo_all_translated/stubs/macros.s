@@ -4,6 +4,7 @@
     .global old_SFRIE1
     .global SFRIE1
     .global untrusted_sp
+    .global TA0CTL
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; MACROS
@@ -99,4 +100,12 @@ mpu_lock .macro
     mov #mpu_sam_value, &MPUSAM
     mov #mpu_ctl0_value, &MPUCTL0
     mov.b #0, &MPUCTL0
+    .endm
+
+start_timer .macro
+    mov #0x224, &TA0CTL
+    .endm
+
+stop_timer .macro
+    mov #0, &TA0CTL
     .endm

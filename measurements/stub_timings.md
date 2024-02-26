@@ -14,12 +14,12 @@ reset_entering_time
 -2 + 61 + `br #ipe_entry` (3) = 62
 reset_normal_time
 -2 + 42 + `br &old_reset_isr` (5) = 45
-call_untrusted_time
--2 + 46 + `bra #call_untrusted_cont` (3) = 47
+ipe_ocall_time
+-2 + 46 + `bra #ipe_ocall_cont` (3) = 47
 ipe_entry_time
 -2 + 56 + `mov #ipe_base_stack, &ipe_sp` (4) + `reta` (5) = 63
 calling_entry_time
--2 + 45 + `calla r6` (5) + `bra #return_to_untrusted` (3) = 51
+-2 + 45 + `calla r6` (5) + `bra #ecall_ret` (3) = 51
 
 ipe_stub:
     push r7 (3)
@@ -33,7 +33,7 @@ unprot_stub:
     push r7 (3)
     mov #00000000b, r6 (2)
     mova #signal_done, r7 (3)
-    calla #call_untrusted (5)
+    calla #ipe_ocall (5)
     pop r7 (2)
     pop r6 (2)
     reta (5) = 25

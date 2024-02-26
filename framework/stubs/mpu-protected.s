@@ -16,9 +16,9 @@
     .global main
 
     ;; exported symbols
-    .global call_untrusted_cont
+    .global ipe_ocall_cont
     .global reset_into_ipe
-    .global return_to_untrusted
+    .global ecall_ret
     .global _system_pre_init
     .global _system_post_cinit
     .global reset_counter
@@ -158,7 +158,7 @@ _system_post_cinit:
 
 ; enables MPU protection, calls untrusted function, resets into IPE
 ; address of untrusted function passed in r7
-call_untrusted_cont:
+ipe_ocall_cont:
 ;     start_timer
     mpu_lock
     mov #0, &entering_ipe
@@ -171,7 +171,7 @@ call_untrusted_cont:
 
 ; returning to untrusted calling code from outside IPE region to prevent ROP
 ; attack due to uncontrolled return address
-return_to_untrusted:
+ecall_ret:
 ;     start_timer
     mpu_lock
     mov #0, &entering_ipe

@@ -1,25 +1,25 @@
     .include "macros.s"
 
     ;; imported symbols
-    .global call_untrusted_cont
-    .global entryFuncs
-    .global maxEntryIndex
+    .global ipe_ocall_cont
+    .global ecall_table
+    .global max_ecall_index
     .global ipe_base_stack
     .global ipe_sp
-    .global return_to_untrusted
+    .global ecall_ret
 
     ;; exported symbols
-    .global call_untrusted
+    .global ipe_ocall
     .global ipe_entry
 
 ;     ;; timing variables
 ;     .global TA0R
-;     .global call_untrusted_time
+;     .global ipe_ocall_time
 ;     .global ipe_entry_time
 ;     .global calling_entry_time
 
 ;     .sect ".TI.persistent"
-; call_untrusted_time:
+; ipe_ocall_time:
 ;     .word 0
 ; ipe_entry_time:
 ;     .word 0
@@ -37,15 +37,15 @@
 ; securely call an untrusted function
 ; r7: address of untrusted function
 ; r6: bitmap of function arguments
-call_untrusted:
+ipe_ocall:
 ;     start_timer
     push_secret_regs
     clear_secret_regs
     clear_caller_save_regs
     disable_secret_stack
 ;     stop_timer
-;     mov &TA0R, &call_untrusted_time
-    bra #call_untrusted_cont
+;     mov &TA0R, &ipe_ocall_time
+    bra #ipe_ocall_cont
 
 
 ; single IPE entry point: disables interrupts, sets up secret stack, routes call to function or return address
@@ -76,7 +76,7 @@ stack_initialized:
 calling_entry_func:
 ;     stop_timer
 ;     start_timer
-    cmp r7, &maxEntryIndex
+    cmp r7, &max_ecall_index
     jhs index_in_bounds
     mov #0, r7  ; set index to 0 if it was out of bounds
 index_in_bounds:
@@ -84,15 +84,15 @@ index_in_bounds:
     mov r7, r6  ; (r6 = 2 * index)
     add r7, r7  ; (r7 = 4 * index)
     add r6, r7  ; (r7 = 6 * index -- each entry in the table is 6 bytes)
-    mova entryFuncs(r7), r6
+    mova ecall_table(r7), r6
 ;     stop_timer
 ;     mov &TA0R, &calling_entry_time
     calla r6
 ;     start_timer
     add #4, r7  ; get size of return argument
-    mov.b entryFuncs(r7), r6
+    mov.b ecall_table(r7), r6
     clear_caller_save_regs
     disable_secret_stack
 ;     stop_timer
 ;     add &TA0R, &calling_entry_time
-    bra #return_to_untrusted
+    bra #ecall_ret

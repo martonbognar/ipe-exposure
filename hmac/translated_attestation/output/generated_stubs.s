@@ -1,5 +1,5 @@
     .global reset_into_ipe
-    .global call_untrusted
+    .global ipe_ocall
 
 
     .global attest
@@ -19,7 +19,7 @@ signal_done_stub:
     push r7
     mov #00000000b, r6
     mova #signal_done, r7
-    calla #call_untrusted
+    calla #ipe_ocall
     pop r7
     pop r6
     reta

@@ -107,7 +107,7 @@ class IPECollector(c_ast.NodeVisitor):
 
     def write_max_index(self):
         self.table_file.write(f"""
-maxEntryIndex:
+max_ecall_index:
     .word {self.index - 1}
 """)
 
@@ -180,7 +180,7 @@ class OcallStubCreator(c_ast.NodeVisitor):
     # stub for all ocalls in IPE, stub:
     #   sets r6 to number of registers used as arguments
     #   sets r7 to address of unprotected function
-    # r6 and r7 used by "call_untrusted" stub in ipe_stubs.s
+    # r6 and r7 used by "ipe_ocall" stub in ipe_stubs.s
     def unprotected_stub_write(self, funcName, nb_reg_used):
         stubname = funcName + "_stub"
         self.stubFile.write(f"""
@@ -192,7 +192,7 @@ class OcallStubCreator(c_ast.NodeVisitor):
     push r7
     mov #{make_bitmap(nb_reg_used)}, r6
     mova #{funcName}, r7
-    calla #call_untrusted
+    calla #ipe_ocall
     pop r7
     pop r6
     reta
@@ -250,14 +250,14 @@ if __name__ == "__main__":
     generated_header = parser.parse("", filename='<none>')
 
     tableFile = open(os.path.join(args.output, "generated_table.s"), "w")
-    tableFile.write("    .global entryFuncs\n")
-    tableFile.write("    .global maxEntryIndex\n")
+    tableFile.write("    .global ecall_table\n")
+    tableFile.write("    .global max_ecall_index\n")
     tableFile.write("    .sect \".ipe_const\"\n")
-    tableFile.write("entryFuncs:\n")
+    tableFile.write("ecall_table:\n")
 
     stubFile = open(os.path.join(args.output, "generated_stubs.s"), "w")
     stubFile.write("    .global reset_into_ipe\n")
-    stubFile.write("    .global call_untrusted\n\n")
+    stubFile.write("    .global ipe_ocall\n\n")
 
     ipe_collector = IPECollector(generated_header, replacement_functions, tableFile, stubFile)
     ipe_collector.visit(original_ast)

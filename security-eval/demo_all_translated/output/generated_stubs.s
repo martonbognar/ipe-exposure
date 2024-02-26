@@ -1,5 +1,5 @@
     .global reset_into_ipe
-    .global call_untrusted
+    .global ipe_ocall
 
 
     .global protected

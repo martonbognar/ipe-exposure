@@ -1,11 +1,11 @@
-    .global entryFuncs
-    .global maxEntryIndex
+    .global ecall_table
+    .global max_ecall_index
     .sect ".ipe_const"
-entryFuncs:
+ecall_table:
 
     .global attest_internal
     .field attest_internal,32
     .byte 00000000b
 
-maxEntryIndex:
+max_ecall_index:
     .word 0
