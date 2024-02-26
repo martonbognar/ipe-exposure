@@ -1,5 +1,5 @@
     .global entryFuncs
-    .global entryCount
+    .global maxEntryIndex
     .sect ".ipe_const"
 entryFuncs:
 
@@ -7,5 +7,5 @@ entryFuncs:
     .field protected_internal,32
     .byte 00000000b
 
-entryCount:
-    .word 1
+maxEntryIndex:
+    .word 0

@@ -3,7 +3,7 @@
     ;; imported symbols
     .global call_untrusted_cont
     .global entryFuncs
-    .global entryCount
+    .global maxEntryIndex
     .global ipe_base_stack
     .global ipe_sp
     .global return_to_untrusted
@@ -76,8 +76,8 @@ stack_initialized:
 calling_entry_func:
 ;     stop_timer
 ;     start_timer
-    cmp &entryCount, r7
-    jl index_in_bounds
+    cmp r7, &maxEntryIndex
+    jhs index_in_bounds
     mov #0, r7  ; set index to 0 if it was out of bounds
 index_in_bounds:
     add r7, r7  ; (r7 = 2 * index)

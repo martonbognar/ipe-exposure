@@ -107,8 +107,8 @@ class IPECollector(c_ast.NodeVisitor):
 
     def write_max_index(self):
         self.table_file.write(f"""
-entryCount:
-    .word {self.index}
+maxEntryIndex:
+    .word {self.index - 1}
 """)
 
     # table to register address and number of registers used as argument for every entry function
@@ -251,7 +251,7 @@ if __name__ == "__main__":
 
     tableFile = open(os.path.join(args.output, "generated_table.s"), "w")
     tableFile.write("    .global entryFuncs\n")
-    tableFile.write("    .global entryCount\n")
+    tableFile.write("    .global maxEntryIndex\n")
     tableFile.write("    .sect \".ipe_const\"\n")
     tableFile.write("entryFuncs:\n")
 
