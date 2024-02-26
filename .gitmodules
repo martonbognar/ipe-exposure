@@ -1,0 +1,3 @@
+[submodule "sancus-core"]
+	path = sancus-core
+	url = https://github.com/sancus-tee/sancus-core
