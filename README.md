@@ -5,10 +5,9 @@ This repository contains the code associated with our [IPE Exposure paper](#).
 ```tex
 @inproceedings{bognar24exposure,
   author    = {Bognar, Marton and Magnus, Cas and Piessens, Frank and Van Bulck, Jo},
-  title     = {Intellectual Property Exposure: Subverting and Securing Intellectual Property Encapsulation in Texas Instruments Microcontrollers},
+  title     = {Intellectual Property Exposure: Subverting and Securing {Intellectual Property Encapsulation} in {Texas Instruments} Microcontrollers},
   booktitle = {33rd {USENIX} Security Symposium ({USENIX} Security 24)},
-  month     = aug,
-  year      = {2024},
+  year      = 2024,
 }
 ```
 
