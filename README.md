@@ -1,6 +1,6 @@
 # Intellectual Property Exposure: Subverting and Securing Intellectual Property Encapsulation in Texas Instruments Microcontrollers
 
-This repository contains the code associated with our [IPE Exposure paper](#).
+This repository contains the code associated with our [IPE Exposure paper](https://mici.hu/papers/bognar24exposure.pdf).
 
 ```tex
 @inproceedings{bognar24exposure,
