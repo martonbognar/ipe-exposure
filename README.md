@@ -1,6 +1,6 @@
 # Intellectual Property Exposure: Subverting and Securing Intellectual Property Encapsulation in Texas Instruments Microcontrollers
 
-This repository contains the code associated with our [IPE Exposure paper](https://mici.hu/papers/bognar24exposure.pdf).
+This repository contains the code associated with our [IPE Exposure paper](https://mici.hu/papers/bognar24exposure.pdf) to appear at [USENIX Security '24](https://www.usenix.org/conference/usenixsecurity24).
 
 ```tex
 @inproceedings{bognar24exposure,
@@ -11,20 +11,16 @@ This repository contains the code associated with our [IPE Exposure paper](https
 }
 ```
 
-The repository is structured as follows:
+## Artifact overview
 
-- `covert/`: projects showcasing the covert channels on the 5969
-- `end-to-end/`: end-to-end attack scenarios
-- `framework/`: our software framework to improve the security of IPE-protected programs
-- `hmac/`: the project used for our macrobenchmark, HMAC code attestation
-- `measurements/`: timing measurements obtained during our experiments and an evaluation script
-- `negatives/`: selected negative results (where demonstration makes sense)
-- `primitives/`: demonstrations of our attack primitives
-- `sancus-core/`: Sancus repository submodule
-- `sancus-exploit/`: files and scripts for Sancus experiments
-- `security-eval/`: projects showcasing the security of our framework
-- `software-bor/`: projects that repeatedly trigger a software brown-out reset
-- `timer/`: projects to time events over GPIO
+| Claim | Paper Ref | Directory | Description |
+| :-----| :-------------- | :-------- | :---------- |
+| C1 | §3 (Table 1)   | [01_attack_primitives](01_attack_primitives) | Minimal, standalone proof-of-concepts for our basic attack primitives: _(1)_ controlled-call corruption; _(2)_ code-gadget reuse; _(3)_ interrupt register state; _(4)_ cache-timing side channel; _(5)_ interrupt-latency side channel; _(6)_ MPU controlled channel. |
+| C2 | §3.4 (Table 4) | [02_covert_channel](02_covert_channel) |  Covert-channel evaluation on the MSP430FR5969. |
+| C3 | §4             | [03_end_to_end_attacks](03_end_to_end_attacks) |  End-to-end attack scenarios: _(1)_ overwriting AES key; _(2)_ inserting a leaky gadget; _(3)_ overwriting `ipe_init_struct` to lift protection. |
+| C4 | §3.1 | [04_sancus_exploit](sancus_exploit) |  Proof-of-concept controlled-call corruption exploit and mitigation on a modified version of Sancus on openMSP430. | 
+| C5 | §6 | [05_framework](05_framework)| Software framework to improve the security of IPE-protected programs and mitigate our attacks. | 
+| C6 | §6.4 (Tables 5,7) | [06_benchmarks](06_benchmarks) | Microbenchmark evaluation results + macrobenchmark for protected HACL* HMAC attestation. | 
 
 ## Running the projects
 

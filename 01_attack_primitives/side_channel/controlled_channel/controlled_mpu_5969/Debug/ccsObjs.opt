@@ -1,0 +1,6 @@
+"./main.obj"
+"./victim.obj"
+"../lnk_msp430fr5969.cmd"
+-llibmath.a
+-llibipe_init.a
+-llibc.a
