@@ -1,3 +1,3 @@
-[submodule "sancus-core"]
+[submodule "04_sancus_exploit/sancus-core"]
 	path = 04_sancus_exploit/sancus-core
-	url = https://github.com/sancus-tee/sancus-core
+	url = https://github.com/sancus-tee/sancus-core.git
