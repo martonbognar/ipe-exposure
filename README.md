@@ -65,7 +65,7 @@ Reading secret from IPE : 1234
 ```
 6. In order to activate IPE, we need a hard reset. For this, first pause the running debug session (Alt+F8, :pause_button:), then select "Hard Reset" from the dropdown next to the Reset button (:recycle:):
 ![hard_reset](ccs_hard_reset.png)
-7. The microcontroller will not reboot with IPE enabled. After resuming (F8, :arrow_forward:) the program, you should see the following output in the Console pane:
+7. The microcontroller will now reboot with IPE enabled. After resuming (F8, :arrow_forward:) the program, you should see the following output in the Console pane:
 ```
 ----------
 Reading secret from main: 3fff (IPE enabled)
