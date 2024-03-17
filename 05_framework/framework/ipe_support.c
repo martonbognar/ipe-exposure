@@ -3,13 +3,13 @@
 extern int fram_ipe_start;
 extern int fram_ipe_end;
 
-int outside_IPE_segment(void *ptr)
+int IPE_FUNC outside_IPE_segment(void *ptr)
 {
     return (ptr < &fram_ipe_start) || (ptr >= &fram_ipe_end);
 }
 
 // Function copied from NaCL's libsodium, re-use allowed under ISC license.
-int constant_time_cmp(const unsigned char *x_, const unsigned char *y_, const unsigned int n)
+int IPE_FUNC constant_time_cmp(const unsigned char *x_, const unsigned char *y_, const unsigned int n)
 {
     const volatile unsigned char *volatile x = (const volatile unsigned char *volatile)x_;
     const volatile unsigned char *volatile y = (const volatile unsigned char *volatile)y_;
