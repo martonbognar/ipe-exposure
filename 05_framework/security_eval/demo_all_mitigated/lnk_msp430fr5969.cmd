@@ -145,7 +145,7 @@ SECTIONS
                                    . = ALIGN(2);
                                    ipe_sp = .;
                                    . += 2;
-                                   . += 160;
+                                   . += 60;
                                    ipe_base_stack = .;
                                    . += 2;
                                }
@@ -159,7 +159,7 @@ SECTIONS
            .ipe:_isr      : {}              /* IPE ISRs                          */
            .ipe_const     : {}              /* IPE Protected constants           */
         } PALIGN(0x0400), RUN_END(fram_ipe_end)
-    } > 0x6000
+    } > 0x4400
 
     .cinit            : {}  > FRAM          /* Initialization tables             */
     .pinit            : {}  > FRAM          /* C++ Constructor tables            */
@@ -337,8 +337,8 @@ SECTIONS
 
 	 mpu_segment_border1 = fram_ipe_start >> 4;
 	 mpu_segment_border2 = fram_ipe_end >> 4;
-	 mpu_sam_value = MPUSEGIRE | MPUSEG1RE | MPUSEG1WE | MPUSEG1XE | MPUSEG3RE | MPUSEG3XE | MPUSEG3WE;
-	 mpu_ctl0_value = MPUPW | MPUENA | MPULOCK | MPUSEGIE;
+	 mpu_sam_value = MPUSEGIRE | MPUSEG1RE | MPUSEG1WE | MPUSEG1XE | MPUSEG3RE | MPUSEG3XE; // | MPUSEG3WE;
+	 mpu_ctl0_value = MPUPW | MPUENA | MPULOCK; //| MPUSEGIE;
 
 
 /****************************************************************************/

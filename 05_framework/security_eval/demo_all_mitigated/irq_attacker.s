@@ -1,5 +1,5 @@
 	.global irq_attacker
-	.global protected_internal
+	.global protected
 	.global TA0CTL
 	.global TA0CCR0
 	.global buffer
@@ -11,7 +11,7 @@ irq_attacker:
     mov #0x4, &TA0CTL
     mov #4, &TA0CCR0
     mov #0x216, &TA0CTL
-	calla #protected_internal
+	calla #protected
 	reta
 
 
@@ -22,8 +22,8 @@ buffer:
 	.sect ".text:_isr"
 custom_isr:
     mov #0x0, &TA0CTL
-    mov r15, &buffer
-	mov #1337, r15
+    mov r12, &buffer
+	mov #1337, r12
 	reti
 
 	.sect ".int44"

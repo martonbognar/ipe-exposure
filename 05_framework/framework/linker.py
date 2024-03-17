@@ -6,16 +6,16 @@ import subprocess
 from elftools.elf.elffile import ELFFile
 
 # ld options that are not supported by compiler
-ld_only_opts = ['-mdemo_all.map',
-                '--heap_size=600',
-                '--stack_size=600',
-                '--cinit_hold_wdt=on',
-                '--priority',
-                '--reread_libs',
-                '--warn_sections',
-                '--xml_link_info=demo_all_linkInfo.xml',
-                '--rom_model',
-                '-z'
+ld_only_opts = [r'-m\w*.map',
+                r'--heap_size=600',
+                r'--stack_size=600',
+                r'--cinit_hold_wdt=on',
+                r'--priority',
+                r'--reread_libs',
+                r'--warn_sections',
+                r'--xml_link_info=\w*_linkInfo.xml',
+                r'--rom_model',
+                r'-z'
                ]
 
 def patch_relocs(fn):
@@ -84,23 +84,28 @@ def main():
 
     # Extract non-option arguments (filenames) and call our custom relocation patcher
     filenames = [arg for arg in sys.argv[1:] if arg.endswith('.obj') and not arg.startswith('-')]
+    mpu_enabled = False
     for filename in filenames:
+        if 'generated' in filename:
+            mpu_enabled = True
         process_filename(filename)
+    print(f'found mpu_enabled={mpu_enabled}')
 
-    # Find all C/asm files in libipe
+    # Find all C/asm files in libipe (skip MPU files unless we detect
+    # translator.py has been called to generate stubs)
     libipe = os.path.dirname(sys.argv[0]) + '/libipe'
     libipe_files = []
     for root, _, files in os.walk(libipe):
         for filename in files:
             if any(filename.endswith(ext) for ext in ['.s', '.asm', '.c']) \
-               and not 'mpu' in filename:
+                    and (not 'mpu' in filename or mpu_enabled):
                 libipe_files.append(os.path.join(root, filename))
 
     # Compile libipe objects and add them to the linker cmdline
     cl430 = os.environ['CG_TOOL_ROOT'] + '/bin/cl430'
     linker_args = [cl430] + sys.argv[1:]
     compiler_args = [cl430] + sys.argv[1:sys.argv.index('-o')]
-    compiler_args = [a for a in compiler_args if a not in ld_only_opts]
+    compiler_args = [a for a in compiler_args if not any(re.match(r, a) for r in ld_only_opts)]
     for f in libipe_files:
         rv = run_cmd(compiler_args + ['-c', f]) 
         if rv != 0:

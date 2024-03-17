@@ -223,7 +223,8 @@ def preprocessed_name(filename):
 
 def ast_from_source(CCS_DIR, parser, filename):
     pp_file_name = preprocessed_name(filename)
-    os.system(f'{CCS_DIR}/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430 -vmspx --data_model=restricted --use_hw_mpy=F5 --include_path={os.path.abspath(os.path.dirname(__file__))}/fake_libc_include --include_path={CCS_DIR}/ccs_base/msp430/include --include_path={os.path.abspath(os.path.dirname(__file__))} --include_path={CCS_DIR}/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include --advice:power=all --advice:hw_config=all --define=__MSP430FR5969__ --define=_IPE_ENABLE --define=_MPU_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_only {filename} --output_file={pp_file_name}')
+    libipe = os.path.abspath(os.path.dirname(sys.argv[0]) + '/libipe')
+    os.system(f'{CCS_DIR}/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430 -vmspx --data_model=restricted --use_hw_mpy=F5 --include_path={os.path.abspath(os.path.dirname(__file__))}/fake_libc_include --include_path={libipe} --include_path={CCS_DIR}/ccs_base/msp430/include --include_path={os.path.abspath(os.path.dirname(__file__))} --include_path={CCS_DIR}/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include --advice:power=all --advice:hw_config=all --define=__MSP430FR5969__ --define=_IPE_ENABLE --define=_MPU_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_only {filename} --output_file={pp_file_name}')
 
     pp_file = open(pp_file_name, "r")
     src = pp_file.read()
