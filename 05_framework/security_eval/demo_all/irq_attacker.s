@@ -22,8 +22,8 @@ buffer:
 	.sect ".text:_isr"
 custom_isr:
     mov #0x0, &TA0CTL
-    mov r15, &buffer
-	mov #1337, r15
+    mov r12, &buffer
+	mov #1337, r12
 	reti
 
 	.sect ".int44"

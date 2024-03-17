@@ -1,9 +1,17 @@
     .include "macros.s"
 
+    ;; weak symbols (overriden by generated stubs in case source-to-source
+    ;; translator mitigation is applied)
+    .sect ".ipe_const"
+    .weak ecall_table
+    .weak max_ecall_index
+ecall_table:
+    .word 0
+max_ecall_index:
+    .word 0
+
     ;; imported symbols
     .global ipe_ocall_cont
-    .global ecall_table
-    .global max_ecall_index
     .global ipe_base_stack
     .global ipe_sp
     .global ecall_ret

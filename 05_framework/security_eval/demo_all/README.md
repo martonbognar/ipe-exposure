@@ -1,55 +1,38 @@
+This directory contains a CCS project with a minimal IPE program that demonstrates all three architectural attack primitives: arbitrary jump, arbitrary interrupt, and controlled call corruption. It can, thus, be used to validate that our mitigation framework successfully blocks the attacks.
+
+## Attention points
+
+* As this test attack program corrupts memory locations, it cannot be re-ran multiple times without re-uploading (i.e., stopping and starting a new CCS debug session).
+
+* The `victim.c` file includes the `ipe_support.h` header. The CCS project configuration in this directory normally already ensures that `${CCS_PROJECT_DIR}/../../framework` is in the include path (`Build Options > MSP430 Compiler > Include Options`).
+
+* `victim.c` also explicitly includes a multiplication, to make sure the compiler will insert a call to the `__mspabi_mpyi` helper function. Our `linker.py` script should intercept this relocation and transparently redirect the call to a secure `__ipe___mspabi_mpyi` variant.
+
+* This project's CCS build configuration normally already ensures that the default linker is changed to our wrapper in `"${CCS_PROJECT_DIR}/../../framework/linker.py"` to transparently patch any relocations.
+
+## Expected output
+
 ```
-#include <msp430.h>
-#include <stdint.h>
-#include <stdio.h>
+Key directly: 3fff (IPE enabled)
+Value of declassified: 7310
 
-uint16_t public = 0;
-extern uint16_t *key;
-void protected(void);
-void call_attacker(void);
-void jump_attacker(void);
-void irq_attacker(void);
+=== ROUND 0: attack disabled ===
+1. Jump attack: jumps to the middle with fake key and corrupts the calculation
+	L_ Value of declassified after attack: 7310 			[FAIL]
+2. IRQ attack: steals original key and corrupts the calculation
+	L_ Value of buffer: 0                    			[FAIL]
+	L_ Value of declassified after attack: 7310 			[FAIL]
+3. CALL attack: corrupts the key and, thus, the calculation
+	L_ Value of declassified after attack: 7310 			[FAIL]
 
-extern uint16_t buffer;
+=== ROUND 1: attack enabled ===
+1. Jump attack: jumps to the middle with fake key and corrupts the calculation
+	L_ Value of declassified after attack: 6e4 			[OK]
+2. IRQ attack: steals original key and corrupts the calculation
+	L_ Value of buffer: 123                    			[OK]
+	L_ Value of declassified after attack: 61c4 			[OK]
+3. CALL attack: corrupts the key and, thus, the calculation
+	L_ Value of declassified after attack: 5944 			[OK]
 
-const int attack = 0;
-
-void _system_post_cinit(void) {
-puts("Reset!");
-}
-
-int main(void)
-{
-	WDTCTL = WDTPW | WDTHOLD;	/ stop watchdog timer
-	
-	printf("Key directly: %x\n", key[0]);
-
-	protected();
-
-	printf("Value of declassified: %x\n", public);
-
-	switch (attack) {
-	case 0:
-puts("CALL attack: corrupts the key, leading to a different result");
-call_attacker();
-printf("Value of declassified after attack: %x\n", public);
-break;
-	case 1:
-puts("Jump attack: jumps to the middle of the enclave with a fake key value in the register used for the calculation");
-jump_attacker();
-printf("Value of declassified after attack: %x\n", public);
-break;
-	case 2:
-puts("IRQ attack: steals original key and corrupts the calculation");
-irq_attacker();
-printf("Value of buffer: %x\n", buffer);
-printf("Value of declassified after attack: %x\n", public);
-break;
-	}
-
-
-
-	return 0;
-}
-
+main: all done; exiting..
 ```

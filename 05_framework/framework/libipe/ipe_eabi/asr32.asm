@@ -45,79 +45,79 @@
         .asg 2,    RETADDRSZ
      .endif
      .if __TI_EABI__
-        .asg __ipe___mspabi_sral, L_ASR
-        .asg __ipe___mspabi_sral_15, L_ASR_15
-        .asg __ipe___mspabi_sral_14, L_ASR_14
-        .asg __ipe___mspabi_sral_13, L_ASR_13
-        .asg __ipe___mspabi_sral_12, L_ASR_12
-        .asg __ipe___mspabi_sral_11, L_ASR_11
-        .asg __ipe___mspabi_sral_10, L_ASR_10
-        .asg __ipe___mspabi_sral_9, L_ASR_9
-        .asg __ipe___mspabi_sral_8, L_ASR_8
-        .asg __ipe___mspabi_sral_7, L_ASR_7
-        .asg __ipe___mspabi_sral_6, L_ASR_6
-        .asg __ipe___mspabi_sral_5, L_ASR_5
-        .asg __ipe___mspabi_sral_4, L_ASR_4
-        .asg __ipe___mspabi_sral_3, L_ASR_3
-        .asg __ipe___mspabi_sral_2, L_ASR_2
-        .asg __ipe___mspabi_sral_1, L_ASR_1
+        .asg __ipe___mspabi_sral, IPE_L_ASR
+        .asg __ipe___mspabi_sral_15, IPE_L_ASR_15
+        .asg __ipe___mspabi_sral_14, IPE_L_ASR_14
+        .asg __ipe___mspabi_sral_13, IPE_L_ASR_13
+        .asg __ipe___mspabi_sral_12, IPE_L_ASR_12
+        .asg __ipe___mspabi_sral_11, IPE_L_ASR_11
+        .asg __ipe___mspabi_sral_10, IPE_L_ASR_10
+        .asg __ipe___mspabi_sral_9, IPE_L_ASR_9
+        .asg __ipe___mspabi_sral_8, IPE_L_ASR_8
+        .asg __ipe___mspabi_sral_7, IPE_L_ASR_7
+        .asg __ipe___mspabi_sral_6, IPE_L_ASR_6
+        .asg __ipe___mspabi_sral_5, IPE_L_ASR_5
+        .asg __ipe___mspabi_sral_4, IPE_L_ASR_4
+        .asg __ipe___mspabi_sral_3, IPE_L_ASR_3
+        .asg __ipe___mspabi_sral_2, IPE_L_ASR_2
+        .asg __ipe___mspabi_sral_1, IPE_L_ASR_1
      .endif
 	
             .sect  ".ipe_func"
 	    .align 2
 	    .clink
 
-            .global L_ASR 
+            .global IPE_L_ASR 
 
-L_ASR:      .asmfunc stack_usage(RETADDRSZ)
+IPE_L_ASR:      .asmfunc stack_usage(RETADDRSZ)
             AND    #31,R14        ; constain range of shift
-            JZ     L_ASR_RET      ; if zero, abort
+            JZ     IPE_L_ASR_RET      ; if zero, abort
 
-L_ASR_TOP:  RRA    R13
+IPE_L_ASR_TOP:  RRA    R13
             RRC    R12
             DEC    R14
-            JNZ    L_ASR_TOP
-L_ASR_RET:  RET
+            JNZ    IPE_L_ASR_TOP
+IPE_L_ASR_RET:  RET
 	    .endasmfunc
 
 	    .sect ".ipe_func"
 	    .align 2
 	    .clink
 
-            .global L_ASR_15, L_ASR_14, L_ASR_13, L_ASR_12, L_ASR_11
-            .global L_ASR_10, L_ASR_9,  L_ASR_8,  L_ASR_7,  L_ASR_6
-            .global L_ASR_5,  L_ASR_4,  L_ASR_3,  L_ASR_2,  L_ASR_1 	
+            .global IPE_L_ASR_15, IPE_L_ASR_14, IPE_L_ASR_13, IPE_L_ASR_12, IPE_L_ASR_11
+            .global IPE_L_ASR_10, IPE_L_ASR_9,  IPE_L_ASR_8,  IPE_L_ASR_7,  IPE_L_ASR_6
+            .global IPE_L_ASR_5,  IPE_L_ASR_4,  IPE_L_ASR_3,  IPE_L_ASR_2,  IPE_L_ASR_1 	
             
-L_ASR_15:   .asmfunc stack_usage(RETADDRSZ)
+IPE_L_ASR_15:   .asmfunc stack_usage(RETADDRSZ)
 	    RRA    R13
             RRC    R12
-L_ASR_14:   RRA    R13
+IPE_L_ASR_14:   RRA    R13
             RRC    R12
-L_ASR_13:   RRA    R13
+IPE_L_ASR_13:   RRA    R13
             RRC    R12
-L_ASR_12:   RRA    R13
+IPE_L_ASR_12:   RRA    R13
             RRC    R12
-L_ASR_11:   RRA    R13
+IPE_L_ASR_11:   RRA    R13
             RRC    R12
-L_ASR_10:   RRA    R13
+IPE_L_ASR_10:   RRA    R13
             RRC    R12
-L_ASR_9:    RRA    R13
+IPE_L_ASR_9:    RRA    R13
             RRC    R12
-L_ASR_8:    RRA    R13
+IPE_L_ASR_8:    RRA    R13
             RRC    R12
-L_ASR_7:    RRA    R13
+IPE_L_ASR_7:    RRA    R13
             RRC    R12
-L_ASR_6:    RRA    R13
+IPE_L_ASR_6:    RRA    R13
             RRC    R12
-L_ASR_5:    RRA    R13
+IPE_L_ASR_5:    RRA    R13
             RRC    R12
-L_ASR_4:    RRA    R13
+IPE_L_ASR_4:    RRA    R13
             RRC    R12
-L_ASR_3:    RRA    R13
+IPE_L_ASR_3:    RRA    R13
             RRC    R12
-L_ASR_2:    RRA    R13
+IPE_L_ASR_2:    RRA    R13
             RRC    R12
-L_ASR_1:    RRA    R13
+IPE_L_ASR_1:    RRA    R13
             RRC    R12
             RET
             .endasmfunc

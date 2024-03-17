@@ -16,10 +16,10 @@ Individual components in this directory are identified in the figure above:
 
 1. **translator.py:** A minimal source-to-source translator that uses the Python [`pycparser`](https://github.com/eliben/pycparser) package to process the abstract syntax tree of an input C file and produce a slightly modified output C file, plus generated assembly glue stubs.
 2. **Libc headers:** Dummy libc header files copied verbatim from the `pycparser` project and need to run the C preprocessor before applying our source-to-source translation.
-3. **Trusted support library:** The files `ipe_support.{c,h}`, which contain C preprocessor macros and helper function to be included in the IPE protection domain.
-4. **Trusted stubs:** Small, hand-written assembly stubs that will be called on context switches to/from IPE to transparently apply sanitizations and configure MPU protection.
+3. **Trusted support library:** The files `libipe/ipe_support.{c,h}`, which contain C preprocessor macros and helper function to be included in the IPE protection domain.
+4. **Trusted stubs:** Small, hand-written assembly stubs in `libipe/stubs` that will be called on context switches to/from IPE to transparently apply sanitizations and configure MPU protection.
 5. **patch-relocs.py:** Minimal script that uses the Python [`pyelftools`](https://github.com/eliben/pyelftools) package to intercept any relocations to compiler-generated arithmetic support routines and transparently redirects them to secure, intra-IPE counterparts.
-6. **EABI stubs:** Secure, intra-IPE variants of arithmetic compiler support routines, copied verbatim from TI's MSP430 CGT support library (included in the CCS distribution).
+6. **EABI stubs:** Secure, intra-IPE variants of arithmetic compiler support routines, in `libipe/ipe_eabi`, copied verbatim from TI's MSP430 CGT support library (included in the CCS distribution).
 7. **Linker script:** The file `lnk_msp430fr5969.cmd` that defines the IPE memory layout and ensures all stubs are included correctly.
 
 ## Installation
@@ -53,6 +53,7 @@ optional arguments:
 
 2. Replace the IPE functions with the generated variants and include `generated_ipe_header.h` in your original source file.
 3. Add the generated assembly stubs, as well as those in `stubs/`, to the list of compiled files in your CCS project.
+    * To include `ipe_support.h`, ensure that the relative path to this directory (e.g., `${CCS_PROJECT_DIR}/../../framework/libipe`) is in the include path (`Build Options > MSP430 Compiler > Include Options`).
 4. Run the `patch-relocs.py` script on the compiled object files before finally linking everything together with the provided custom linker script.
 
 ## Copyright notices
