@@ -1,5 +1,5 @@
 ;******************************************************************************
-;* LSR32.ASM -                                                                *
+;* MPY16.ASM -                                                                *
 ;*                                                                            *
 ;* Copyright (c) 2003 Texas Instruments Incorporated                          *
 ;* http://www.ti.com/                                                         *
@@ -34,9 +34,20 @@
 ;*  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.      *
 ;*                                                                            *
 ;******************************************************************************
-;---------------------------------------------------------------------------
-;-- 32-bit logical right shift     
-;---------------------------------------------------------------------------
+;****************************************************************************
+;* __ipe___mpyi  (int16 = int16 * int16)
+;*  
+;*   - Operand 1 is in R12
+;*   - Operand 2 is in R13
+;*   - Result is in R12
+;*
+;*   Registers used:  R12,R13,R14
+;* 
+;*   Algorithm:
+;*
+;*    for(; OP1 != 0; OP2 <<= 1, (unsigned) OP1 >>= 1)
+;*       if (OP1 & 1) prod += OP2;
+;****************************************************************************
      .if $DEFINED(__LARGE_CODE_MODEL__)
 	.asg RETA,RET
         .asg 4,    RETADDRSZ
@@ -45,80 +56,35 @@
      .endif
 
      .if __TI_EABI__
-        .asg __ipe___mspabi_srll, L_LSR
-        .asg __ipe___mspabi_srll_15, L_LSR_15
-        .asg __ipe___mspabi_srll_14, L_LSR_14
-        .asg __ipe___mspabi_srll_13, L_LSR_13
-        .asg __ipe___mspabi_srll_12, L_LSR_12
-        .asg __ipe___mspabi_srll_11, L_LSR_11
-        .asg __ipe___mspabi_srll_10, L_LSR_10
-        .asg __ipe___mspabi_srll_9, L_LSR_9
-        .asg __ipe___mspabi_srll_8, L_LSR_8
-        .asg __ipe___mspabi_srll_7, L_LSR_7
-        .asg __ipe___mspabi_srll_6, L_LSR_6
-        .asg __ipe___mspabi_srll_5, L_LSR_5
-        .asg __ipe___mspabi_srll_4, L_LSR_4
-        .asg __ipe___mspabi_srll_3, L_LSR_3
-        .asg __ipe___mspabi_srll_2, L_LSR_2
-        .asg __ipe___mspabi_srll_1, L_LSR_1
+        .asg __ipe___mspabi_mpyi, __ipe___mpyi
+        .asg __ipe___mspabi_mpyi_sw, __ipe___mpyi_sw
      .endif
 	
-     .if $DEFINED(.MSP430X)
-LLSR1   .macro P1, P2
-	RRUM.W #1, P1
-	RRCM.W #1, P2
-	.endm
-     .else
-LLSR1   .macro P1, P2
-	CLRC
-	RRC    P1
-	RRC    P2
-	.endm
-     .endif	
-	
-            .sect ".ipe_func"
-	    .align 2
-	    .clink
+	.global __ipe___mpyi
+	.global __ipe___mpyi_sw
 
-            .global L_LSR
+	.sect ".ipe_func"
+        .clink
+	.align 2
 
-L_LSR:      .asmfunc stack_usage(RETADDRSZ)
-            AND    #31,R14        ; constain range of shift
-            JZ     L_LSR_RET      ; if zero, abort
+__ipe___mpyi_sw:
+__ipe___mpyi:	.asmfunc stack_usage(RETADDRSZ)
+	CLR.W	R14		; Initialize product to 0
 
-L_LSR_TOP:  LLSR1  R13, R12
-            DEC    R14
-            JNZ    L_LSR_TOP
-L_LSR_RET:  
-	    RET
-	    .endasmfunc
+mpyi_add_loop:
+	CLRC			
+	RRC.W	R12		; Get LSB of OP1, rotate in 0 to cap MSB
+	JNC     shift_test_mpyi	; If LSB of OP1 is zero, no add into product
+	ADD.W	R13,R14		; If LSB of OP1 is 1, add OP2 into product
 
-	    .sect ".ipe_func"
-	    .align 2
-	    .clink
+shift_test_mpyi:
+	RLA.W	R13		; Prepare OP2 for next iteration, if needed
+	TST.W	R12		; If OP1 == 0, done
+	JNE	mpyi_add_loop	; Otherwise, continue add loop
+	MOV.W	R14,R12		; Move product into result register
+ 	RET
+	.endasmfunc
 
-            .global L_LSR_15, L_LSR_14, L_LSR_13, L_LSR_12, L_LSR_11
-            .global L_LSR_10, L_LSR_9,  L_LSR_8,  L_LSR_7,  L_LSR_6
-            .global L_LSR_5,  L_LSR_4,  L_LSR_3,  L_LSR_2,  L_LSR_1 	
-            
-L_LSR_15:   .asmfunc stack_usage(RETADDRSZ)
-            LLSR1  R13, R12
-L_LSR_14:   LLSR1  R13, R12
-L_LSR_13:   LLSR1  R13, R12
-L_LSR_12:   LLSR1  R13, R12
-L_LSR_11:   LLSR1  R13, R12
-L_LSR_10:   LLSR1  R13, R12
-L_LSR_9:    LLSR1  R13, R12
-L_LSR_8:    LLSR1  R13, R12
-L_LSR_7:    LLSR1  R13, R12
-L_LSR_6:    LLSR1  R13, R12
-L_LSR_5:    LLSR1  R13, R12
-L_LSR_4:    LLSR1  R13, R12
-L_LSR_3:    LLSR1  R13, R12
-L_LSR_2:    LLSR1  R13, R12
-L_LSR_1:    LLSR1  R13, R12
-	    RET
-            .endasmfunc
 
 ;******************************************************************************
 ;* BUILD ATTRIBUTES                                                           *

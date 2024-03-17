@@ -46,24 +46,24 @@
      .endif
 
      .if __TI_EABI__
-        .asg __ipe___mspabi_rlll, L_ROTL
+        .asg __ipe___mspabi_rlll, IPE_L_ROTL
      .endif
 	
             .sect  ".ipe_func"
 	    .align 2
 
-            .global L_ROTL
+            .global IPE_L_ROTL
 
-L_ROTL:     .asmfunc stack_usage(RETADDRSZ)
+IPE_L_ROTL:     .asmfunc stack_usage(RETADDRSZ)
             AND    #31,R14        ; constrain range of shift
-            JZ     L_ROTL_RET     ; if zero, nothing to do - return
+            JZ     IPE_L_ROTL_RET     ; if zero, nothing to do - return
 
-L_ROTL_TOP: RLA    R12
+IPE_L_ROTL_TOP: RLA    R12
             RLC    R13
             ADC    R12
             DEC    R14
-            JNZ    L_ROTL_TOP
-L_ROTL_RET: 
+            JNZ    IPE_L_ROTL_TOP
+IPE_L_ROTL_RET: 
 	    RET
             .endasmfunc
             

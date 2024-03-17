@@ -20,7 +20,7 @@ Individual components in the `framework` directory are identified in the figure 
 4. **Trusted stubs:** Small, hand-written assembly stubs in `libipe/stubs` that will be called on context switches to/from IPE to transparently apply sanitizations and configure MPU protection.
 5. **EABI stubs:** Secure, intra-IPE variants of arithmetic compiler support routines, in `libipe/ipe_eabi`, copied verbatim from TI's MSP430 CGT support library (included in the CCS distribution).
 6. **linker.py:** Convenient wrapper script to replace the original MSP430 linker executable (e.g., as specified in the CCS IDE build configuration). This script uses the Python [`pyelftools`](https://github.com/eliben/pyelftools) package to intercept any compiler-generated arithmetic support routines, transparently redirecting them to secure intra-IPE counterparts, as well as compiles + links our custom IPE support library.
-9. **Linker script:** The file `lnk_msp430fr5969.cmd` that defines the IPE memory layout and ensures all stubs are included correctly.
+7. **Linker script:** The file `lnk_msp430fr5969.cmd` that defines the IPE memory layout and ensures all stubs are included correctly.
 
 ## Installation
 

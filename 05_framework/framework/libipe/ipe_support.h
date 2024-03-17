@@ -43,6 +43,7 @@ int constant_time_cmp(const unsigned char *x_, const unsigned char *y_, const un
     __IPE_ABI(fn##_1)
 
 __IPE_ABI(memset)
+__IPE_ABI(__mspabi_mpyi)
 __IPE_ABI_NUM(__mspabi_sral)
 __IPE_ABI_NUM(__mspabi_slll)
 __IPE_ABI_NUM(__mspabi_srll)

@@ -1,0 +1,3 @@
+*.swp
+**/Debug/
+**/__pycache__/
