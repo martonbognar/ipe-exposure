@@ -9,3 +9,5 @@ Expected output:
 Leaked word: beef (cycles: 750)
 
 ```
+
+![nemesis](covert_nemesis.png)

@@ -28,7 +28,7 @@ The repository is organized according to the major claims made in the [artifact 
 
 ### 1. Clone the repository
 
-If you want to run the Sancus evaluation, make sure the clone the repository with git submodules:
+If you want to run the Sancus evaluation, make sure to clone the repository with git submodules:
 
 ```
 $ git clone --recurse-submodules https://github.com/martonbognar/ipe-exposure
@@ -75,10 +75,10 @@ Reading secret from IPE : 1234
 
 #### Troubleshooting
 
-> :bulb: Always read the main source file (usually `main.c`) before running the code, it often contains instructions.
+> :bulb: Every project directory contains a README with concise running instructions and expected output (copied from the main source file, usually `main.c`).
 
 * Any Ultra-Low-Power Advisor remarks can be safely ignored by clicking `Proceed`.
 
-* If you get an error about data verification, make sure that `Target > MSP43x Options > On connect, erase main, information, and IP protected area` is enabled in the debug configuration (dropdown next to Debug button). This should normally already be the case for all CCS projects in this repository.
+* If you get an error about data verification, make sure that `Target > MSP43x Options > On connect, erase main, information, and IP protected area` is enabled in the debug configuration (dropdown next to Debug :beetle: button). This should normally already be the case for all CCS projects in this repository.
 
 ![debug_conf](ccs_debug_conf.png)

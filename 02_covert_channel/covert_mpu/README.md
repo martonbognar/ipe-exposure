@@ -9,3 +9,5 @@ Expected output:
 Leaked word: beef (cycles: 475)
 
 ```
+
+![mpu](covert_mpu.png)

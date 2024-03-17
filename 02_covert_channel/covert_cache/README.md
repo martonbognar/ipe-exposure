@@ -9,3 +9,5 @@ Expected output:
 Leaked word: dead (cycles: 1473)
 
 ```
+
+![cache](covert_cache.png)
