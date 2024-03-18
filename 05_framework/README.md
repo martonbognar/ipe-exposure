@@ -12,6 +12,8 @@ This source file can then be applied to our translator Python script, which will
 
 ## Directory structure
 
+The `security_eval` directory contains a sample CCS project to showcase the security of an IPE program with and without our framework.
+
 Individual components in the `framework` directory are identified in the figure above:
 
 1. **translator.py:** A minimal source-to-source translator that uses the Python [`pycparser`](https://github.com/eliben/pycparser) package to process the abstract syntax tree of an input C file and produce a slightly modified output C file, plus generated assembly glue stubs.
