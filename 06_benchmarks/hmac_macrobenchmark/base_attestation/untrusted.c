@@ -10,7 +10,7 @@
  * To inspect the output, open the Memory Browser view.
  * When running the attestation normally, the `mac_region` array will have changed.
  * When performing the attack, the `buffer` array will contain the first
- * few bytex (0x41, 0x41, ...) of the secret key.
+ * few bytes (0x41, 0x41, ...) of the secret key.
  */
 #include <msp430.h>
 #include <stdint.h>

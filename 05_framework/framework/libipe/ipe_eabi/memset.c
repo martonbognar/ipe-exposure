@@ -1,6 +1,6 @@
 #include <string.h>
 
-void __attribute__((section (".ipe_func"), retain)) *ipe_memset(void *mem, int ch, size_t length)
+void __attribute__((section (".ipe_func"), retain)) *__ipe_memset(void *mem, int ch, size_t length)
 {
      char *m = (char *)mem;
 

@@ -7,8 +7,8 @@ from elftools.elf.elffile import ELFFile
 
 # ld options that are not supported by compiler
 ld_only_opts = [r'-m\w*.map',
-                r'--heap_size=600',
-                r'--stack_size=600',
+                r'--heap_size=\d*',
+                r'--stack_size=\d*',
                 r'--cinit_hold_wdt=on',
                 r'--priority',
                 r'--reread_libs',

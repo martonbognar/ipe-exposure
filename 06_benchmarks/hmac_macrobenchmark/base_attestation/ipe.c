@@ -1,6 +1,6 @@
 #include <msp430.h>
 #include "mock.h"
-#include "ipe_support.h"
+#include <ipe_support.h>
 
 void signal_done(void);
 extern uint8_t mac_region[];

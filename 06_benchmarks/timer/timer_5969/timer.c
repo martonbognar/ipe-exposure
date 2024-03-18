@@ -13,6 +13,8 @@ int main(void)
     WDTCTL = WDTPW | WDTHOLD;   // stop watchdog timer
     counter = 0;
 
+    puts("timer: listening for interrupts on P1.3 (make sure to hit resume for every subsequent print statement in the debugger)..");
+
     CSCTL0_H = PMMPW_H;
     FRCTL0 = FRCTLPW | NWAITS_1;
     CSCTL1 = DCORSEL | DCOFSEL_4;
@@ -42,9 +44,12 @@ int main(void)
         __no_operation();
     }
 
+    puts("printing measurements (copy-paste the line below into a CSV file):");
     for (unsigned i = 0; i < 100; ++i) {
-        printf("%x%x\n", overflows[i], remainders[i]);
+        printf("%x%x,", overflows[i], remainders[i]);
     }
+
+    puts("\nall done! exiting..");
 
     return 0;
 }
