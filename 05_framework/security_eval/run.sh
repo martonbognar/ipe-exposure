@@ -31,6 +31,10 @@ echo ".. fixing victim.c"
 head -n 22 $INPUT_DIR/victim.c | cat - $OUTPUT_DIR/victim.c > victim.c.tmp
 mv victim.c.tmp $OUTPUT_DIR/victim.c
 
+for f in $OUTPUT_DIR/*_attacker.s; do
+    sed -i 's/protected/protected_internal/g' $f
+done
+
 echo ".. generating diff summary"
 diff -qr $INPUT_DIR $OUTPUT_DIR | sed 's/^/\tL_ /'
 

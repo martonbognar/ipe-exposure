@@ -1,5 +1,5 @@
 	.global irq_attacker
-	.global protected
+	.global protected_internal
 	.global TA0CTL
 	.global TA0CCR0
 	.global buffer
@@ -11,7 +11,7 @@ irq_attacker:
     mov #0x4, &TA0CTL
     mov #4, &TA0CCR0
     mov #0x216, &TA0CTL
-	calla #protected
+	calla #protected_internal
 	reta
 
 

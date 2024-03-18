@@ -14,40 +14,76 @@ void irq_attacker(void);
 
 extern uint16_t buffer;
 
+/*
+ * NOTE: we define reset_counter as weak here, so that it is overridden
+ * by our framework if the MPU stubs are included (ie compiled with mitigation enabled).
+ */
+#pragma WEAK(reset_counter)
+#pragma PERSISTENT(reset_counter)
+int reset_counter = 0;
+
+#pragma WEAK(_system_post_cinit)
+void _system_post_cinit(void)
+{
+    reset_counter++;
+}
+
+int expected_public = 0;
+
+int step = 0;
+int fail_code = 0;
+#define ASSERT_STEP(cond, code) \
+    if ( !(cond) ) { fail_code = code; while(1){ __no_operation();} } else { step++; }
+
+/* NOTE: set this to the desired attack vector */
+int attack = 2;
+
 int main(void)
 {
-    int i, secret;
+    int secret;
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
 	
 	secret = key[0];
-	printf("Key directly: %x (%s)\n", secret, secret == SECRET_KEY_BYTE ? "IPE disabled" : "IPE enabled");
-	protected();
-	printf("Value of declassified: %x\n", public);
+	printf("Key directly: %x (%s)\n", secret, secret == 0x3fff ? "IPE enabled" : "IPE disabled");
 
-	if (secret == SECRET_KEY_BYTE)
-	{
-	    puts("fatal: IPE not enabled: pause the running debug session and trigger a hard reset via the CCS IDE..");
-	    while(1);
-	}
+    if (secret != 0x3fff)
+    {
+        puts("fatal: IPE not enabled: pause the running debug session and trigger a hard reset via the CCS IDE..");
+        fail_code = 1;
+        while(1);
+    }
 
-	for (i = 0; i < 2; i++)
-	{
-	    printf("\n=== ROUND %d: attack %s ===\n", i, i > 0 ? "enabled" : "disabled");
+    /* when using the MPU framework, this will reset and detach the console, so we can't printf after this */
+    protected();
+    ASSERT_STEP(public == DECLASSIFIED_OUTPUT, /*code=*/2 )
+    expected_public = public;
+    public = 0;
 
-        puts("1. Jump attack: jumps to the middle with fake key and corrupts the calculation");
-        if (i > 0) jump_attacker();
-        printf("\tL_ Value of declassified after attack: %x \t\t\t[%s]\n", public, public != DECLASSIFIED_OUTPUT ? "OK" : "FAIL");
+    switch (attack)
+    {
+        case 1:
+            /* 1. Jump attack: jumps to the middle with fake key and corrupts the calculation */
+            jump_attacker();
+            ASSERT_STEP( public != DECLASSIFIED_OUTPUT, /*code=*/3)
+            break;
+        case 2:
+             /* 2. IRQ attack: steals original key and corrupts the calculation */
+            irq_attacker();
+            ASSERT_STEP( public != DECLASSIFIED_OUTPUT, /*code=*/4)
+            ASSERT_STEP( buffer == SECRET_KEY_BYTE , /*code=*/5)
+            break;
+        case 3:
+            /* 3. CALL attack: corrupts the key and, thus, the calculation */
+            call_attacker();
+            ASSERT_STEP( public != DECLASSIFIED_OUTPUT, /*code=*/6)
+            break;
+    }
 
-        puts("2. IRQ attack: steals original key and corrupts the calculation");
-        if (i > 0) irq_attacker();
-        printf("\tL_ Value of buffer: %x                    \t\t\t[%s]\n", buffer, buffer == SECRET_KEY_BYTE ? "OK" : "FAIL");
-        printf("\tL_ Value of declassified after attack: %x \t\t\t[%s]\n", public, public != DECLASSIFIED_OUTPUT ? "OK" : "FAIL");
+    /* If we reach here all attacks succeeded! */
+    while (1)
+    {
+        __no_operation();
+    }
 
-        puts("3. CALL attack: corrupts the key and, thus, the calculation");
-        if (i > 0) call_attacker();
-        printf("\tL_ Value of declassified after attack: %x \t\t\t[%s]\n", public, public != DECLASSIFIED_OUTPUT ? "OK" : "FAIL");
-	}
-
-	puts("\nmain: all done; exiting..");
 	return 0;
 }
