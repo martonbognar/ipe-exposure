@@ -49,6 +49,12 @@ $ cd ~/ti/ccs1260/ccs/install_scripts/
 $ sudo ./install_drivers.sh
 ```
 
+If you want to use our software mitigation framework, install [`pycparser`](https://github.com/eliben/pycparser) and [`pyelftools`](https://github.com/eliben/pyelftools) as follows:
+
+```shell
+$ pip install -r 05_framework/framework/requirements.txt --no-deps
+```
+
 ### 3. Running a sample CCS project
 
 Individual projects from this repository can be imported in the CCS IDE to load them onto a connected MSP430 development board. Proceed as follows to run a simple "hello world" IPE program:
