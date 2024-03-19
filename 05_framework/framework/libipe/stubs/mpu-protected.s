@@ -15,6 +15,11 @@
     .global SYSRSTIV
     .global main
 
+    ;; frequency control
+    .global CSCTL0
+    .global CSCTL1
+    .global CSCTL3
+
     ;; exported symbols
     .global ipe_ocall_cont
     .global reset_into_ipe
@@ -186,6 +191,11 @@ ecall_ret:
 ; reset ISR: if entering IPE flag is set, restore registers and jump to entry,
 ; otherwise enable MPU protection and follow old reset vector
 new_reset_isr:
+    ; first set clock to 8 MHz in line with vrased experiments (any changes
+    ; made in `main` are lost on reset, so need to be re-applied here)
+    mov #0xA500, &CSCTL0 
+    mov #0x0046, &CSCTL1
+    mov #0, &CSCTL3
 ;     start_timer
     mov #0x5A80, &WDTCTL
     mov #0xA500, &MPUCTL0
