@@ -2,14 +2,21 @@
 
 import statistics
 import sys
+import csv
 
 file = sys.argv[1]
-data = []
 
 # read cycle counts
-with open(file) as inp:
-    for line in inp.readlines():
-        data.append(int(line, 16))
+if file.endswith('.csv'):
+    with open(file) as f:
+        data = list(csv.reader(f))[0]
+        data = [int(d, 16) for d in data[:-1]]
+else:
+    data = []
+    with open(file) as inp:
+        for line in inp.readlines():
+            data.append(int(line, 16))
+#print(data)
 
 # calculate ms from cycle count (assume 16 MHz)
 freq = 16 * (10 ** 6)
