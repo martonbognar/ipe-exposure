@@ -36,7 +36,7 @@ Select `TI MSP430 USB2` for the `timer` project.
 
 ### IPE-only
 
-> As an end-to-end benchmark, we measured the average execution time of attesting the entire RAM (2 kB). Running at 8 MHz, the attestation takes 497.0777 ms (n = 100, σ = 0.0149 ) with only IPE protection. 
+> As an end-to-end benchmark, we measured the average execution time of attesting the entire RAM (2 kB). Running at 8 MHz, the attestation takes 497.0777 ms (n = 100, σ = 0.0149) with only IPE protection.
 
 Example output when running the `hmac/base_attestation/` and `timer/timer_5969` projects on two connected MSP-EXP430FR5969 boards:
 
@@ -50,7 +50,7 @@ all done! exiting..
 Now copy the line with the numbers verbatim into a CSV file and run the calculator script as follows:
 
 ```
-ipe-exposure/06_benchmarks/measurements$ ./calculator.py hmac_base.csv 
+ipe-exposure/06_benchmarks/measurements$ ./calculator.py hmac_base.csv
 Mean: 496.9553 ms
 Stdv: 0.018305 ms
 ```
@@ -59,7 +59,7 @@ This indeed closely corresponds to the reported numbers (small deviations are ex
 
 ### IPE + MPU software mitigation framework
 
-> Using our framework to protect this vulnerable implementation, the execution time increases to 497.7123 ms (n = 100, σ = 0.0182 ), an overhead of 634.6 μs (0.13%).
+> Using our framework to protect this vulnerable implementation, the execution time increases to 497.7123 ms (n = 100, σ = 0.0182), an overhead of 634.6 μs (0.13%).
 
 Example output when running the `hmac/translated_attestation/` and `timer/timer_5969` projects on two connected MSP-EXP430FR5969 boards:
 
@@ -73,7 +73,7 @@ all done! exiting..
 Now copy the line with the numbers verbatim into a CSV file and run the calculator script as follows:
 
 ```
-ipe-exposure/06_benchmarks/measurements$ $ ./calculator.py hmac_trans.csv 
+ipe-exposure/06_benchmarks/measurements$ $ ./calculator.py hmac_trans.csv
 Mean: 497.6205 ms
 Stdv: 0.011167 ms
 ```
@@ -96,9 +96,9 @@ all done! exiting..
 Now copy the line with the numbers verbatim into a CSV file and run the calculator script as follows:
 
 ```
-ipe-exposure/06_benchmarks/measurements$ ./calculator.py hmac_trans.csv 
-Mean: 497.6205 ms
-Stdv: 0.011167 ms
+ipe-exposure/06_benchmarks/measurements$ ./calculator.py 5969_bor.csv
+Mean: 0.3473 ms
+Stdv: 0.000114 ms
 ```
 
 This indeed closely corresponds to the reported numbers for the MSP-EXP430FR5969 device: mean=347.3μs; stdev=0.109 μs (small deviations are expected).

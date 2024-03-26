@@ -8,13 +8,13 @@ This directory contains minimal, standalone proof-of-concept programs to showcas
 
 Attack primitives are organized in hierarchical subdirectories as per Table 1 and MSP430 device number.
 
-The subdirectory for the novel _controlled call corruption_ primitive, also includes relevant negative results discussed in the paper.
+The subdirectory for the novel _controlled call corruption_ primitive also includes relevant negative results discussed in the paper.
 
 ## Running the programs
 
 Refer to the top-level [README](../README.md#3-running-a-sample-ccs-project) on how to import and run the CCS projects with IPE enabled.
 
-Every project contains a README with the expected output. For the architectural attack primitives, this should print the secret value 1337 (whereas reading directly yields the dummy value 0x3ff):
+Every project contains a README with the expected output. For the architectural attack primitives, this should print the secret value `0x1337` (whereas reading directly yields the dummy value `0x3fff`):
 
 ```
 Secret directly: 3fff, storage: 1337
