@@ -17,16 +17,16 @@ The `security_eval` directory contains a sample CCS project to showcase the secu
 Individual components in the `framework` directory are identified in the figure above:
 
 1. **translator.py:** A minimal source-to-source translator that uses the Python [`pycparser`](https://github.com/eliben/pycparser) package to process the abstract syntax tree of an input C file and produce a slightly modified output C file, plus generated assembly glue stubs.
-2. **Libc headers:** Dummy libc header files copied verbatim from the `pycparser` project and need to run the C preprocessor before applying our source-to-source translation.
+2. **Libc headers:** Dummy libc header files copied verbatim from the `pycparser` project, needed to run the C preprocessor before applying our source-to-source translation.
 3. **Trusted support library:** The files `libipe/ipe_support.{c,h}`, which contain C preprocessor macros and helper function to be included in the IPE protection domain.
 4. **Trusted stubs:** Small, hand-written assembly stubs in `libipe/stubs` that will be called on context switches to/from IPE to transparently apply sanitizations and configure MPU protection.
 5. **EABI stubs:** Secure, intra-IPE variants of arithmetic compiler support routines, in `libipe/ipe_eabi`, copied verbatim from TI's MSP430 CGT support library (included in the CCS distribution).
-6. **linker.py:** Convenient wrapper script to replace the original MSP430 linker executable (e.g., as specified in the CCS IDE build configuration). This script uses the Python [`pyelftools`](https://github.com/eliben/pyelftools) package to intercept any compiler-generated arithmetic support routines, transparently redirecting them to secure intra-IPE counterparts, as well as compiles + links our custom IPE support library.
+6. **linker.py:** Convenient wrapper script to replace the original MSP430 linker executable (e.g., as specified in the CCS IDE build configuration). This script uses the Python [`pyelftools`](https://github.com/eliben/pyelftools) package to intercept any compiler-generated arithmetic support routines, transparently redirecting them to secure intra-IPE counterparts, and compiles + links our custom IPE support library.
 7. **Linker script:** The file `lnk_msp430fr5969.cmd` that defines the IPE memory layout and ensures all stubs are included correctly.
 
 ## Installation
 
-Install [`pycparser`](https://github.com/eliben/pycparser) and [`pyelftools`](https://github.com/eliben/pyelftools) as follows:
+Install [`pycparser`](https://github.com/eliben/pycparser), [`pycparserext`](https://github.com/inducer/pycparserext), and [`pyelftools`](https://github.com/eliben/pyelftools) as follows:
 
 ```shell
 pip install -r framework/requirements.txt --no-deps
@@ -34,7 +34,7 @@ pip install -r framework/requirements.txt --no-deps
 
 ## General workflow
 
-We provide a concrete sample CCS project in `security_eval`. In general, the workflow to use our framework for your own projects is as follows:
+We provide a sample CCS project in `security_eval`. In general, the workflow to use our framework for your own projects is as follows:
 
 1. Manually invoke the `translator.py` script on your C source file that contains the IPE function and data definitions. This will generate assembly stubs and a modified C file in the specified output directory. Syntax and arguments are as follows:
 

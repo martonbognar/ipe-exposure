@@ -1,4 +1,4 @@
-# Benchmarks software mitigation framework
+# Benchmarks for the software mitigation framework
 
 To assess the individual overhead contributions of the different components introduced by our framework, we performed a series of microbenchmarks.
 Furthermore, as an end-to-end macrobenchmark, we ported a representative embedded enclaved application, [VRASED's](https://github.com/sprout-uci/vrased) memory attestation  using the HACL* cryptographic library, to the MSP-EXP430FR5969 board.
@@ -24,7 +24,7 @@ The physical setup with two connected MSP-EXP430FR5969 boards is shown below:
 
 > :warning: To simultaneously debug multiple devices, multiple instances of CCS need to be launched with different workspaces selected.
 
-> :warning: Because of an [MSP-EXP430FR5969 CPU bug](https://e2e.ti.com/support/tools/code-composer-studio-group/ccs/f/code-composer-studio-forum/1098582/msp430fr2155), the `timer` project will unfortunately pause the debugger on every `printf` statement. Hence, you need to manually resume (F8, :arrow_forward:) the `timer` program several times to see the measurements output in the CCS console.
+> :warning: Because of an [MSP-EXP430FR5969 CPU bug](https://e2e.ti.com/support/tools/code-composer-studio-group/ccs/f/code-composer-studio-forum/1098582/msp430fr2155), the `timer_5969` project will unfortunately pause the debugger on every `printf` statement. Hence, you need to manually resume (F8, :arrow_forward:) the `timer` program several times to see the measurements output in the CCS console.
 
 Import the two projects in the two separate workspaces, and launch the debug sessions from there.
 For the `timer` project, you will have the change the port used for debugging, this can be done via "Project > Properties > General > Connection".

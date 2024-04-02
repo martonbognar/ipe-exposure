@@ -4,7 +4,7 @@ This directory contains a CCS project with a minimal IPE program that demonstrat
 
 ## Attention points
 
-* As this test attack program corrupts memory locations, it cannot be re-ran multiple times without re-uploading (i.e., stopping and starting a new CCS debug session). You can select the attack type by setting the global variable `attack` in `main.c` (1=jump; 2=IRQ; 3=call).
+* As this test attack program corrupts memory locations, it cannot be re-run multiple times without re-uploading (i.e., stopping and starting a new CCS debug session). You can select the attack type by setting the global variable `attack` in `main.c` (1=jump; 2=IRQ; 3=call).
 
 * When running with the MPU protection enabled, the console detaches on resets. Thus, we cannot rely on `printf` statements to show the outcome. Instead, after running the program for a while, press pause ( :pause_button: ) and switch to the "Expressions" pane in the CCS debugger to manually inspect the values of `step`, `fail_code`, `buffer`, `public`, and  `expected_public` (as illustrated in the screenshots below).
 
@@ -24,12 +24,12 @@ Example output for an unsuccessful IRQ attack (`demo_all_mitigated` with `attack
 
 ## Generating the `demo_all_mitigated` project
 
-The `demo_all` directory contains a vulnerable CCS project _without_ MPU mitigations. We also include the auto-generated `demo_all_mitigated` CCS project that has all mitigations included for reference. 
+The `demo_all` directory contains a vulnerable CCS project _without_ MPU mitigations. We also include the auto-generated `demo_all_mitigated` CCS project that has all mitigations included for reference.
 
 To re-generate the mitigated project copy manually, proceed as follows:
 
 ```
-$ ./run.sh 
+$ ./run.sh
 .. copying base 'demo_all' CCS project to 'demo_all_mitigated'
 .. sanity-check CCS project configuration
 	L_ searching for libipe    in file: demo_all_mitigated/.cproject [OK]
