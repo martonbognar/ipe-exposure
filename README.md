@@ -13,7 +13,7 @@ This repository contains the code associated with our [IPE Exposure paper](https
 
 ## Artifact overview
 
-The repository is organized according to the major claims made in the [artifact evaluation appendix](TODO), which we overview below.
+The repository is organized according to the major claims made in the artifact evaluation appendix (currently under review), which we overview below.
 
 | Claim | Paper Ref | Directory | Description |
 | :-----| :-------------- | :-------- | :---------- |
@@ -21,9 +21,9 @@ The repository is organized according to the major claims made in the [artifact 
 | C1 | §3 (Table 1)   | [01_attack_primitives](01_attack_primitives) | Minimal, standalone proof-of-concepts for our basic attack primitives: _(1)_ controlled call corruption; _(2)_ code-gadget reuse; _(3)_ interrupt register state; _(4)_ cache-timing side channel; _(5)_ interrupt-latency side channel; _(6)_ MPU controlled channel. |
 | C2 | §3.4 (Table 4) | [02_covert_channel](02_covert_channel) |  Covert-channel evaluation on the MSP430FR5969. |
 | C3 | §4             | [03_end_to_end_attacks](03_end_to_end_attacks) |  End-to-end attack scenarios: _(1)_ overwriting AES key; _(2)_ inserting a leaky gadget; _(3)_ overwriting `ipe_init_struct` to lift protection. |
-| C4 | §3.1 | [04_sancus_exploit](sancus_exploit) |  Proof-of-concept controlled call corruption exploit and mitigation on a modified version of Sancus on openMSP430. |
+| C4 | §3.1 | [04_sancus_exploit](04_sancus_exploit) |  Proof-of-concept controlled call corruption exploit and mitigation on a modified version of Sancus on openMSP430. |
 | C5 | §6 | [05_framework](05_framework)| Software framework to improve the security of IPE-protected programs and mitigate our attacks. |
-| C6 | §6.4 (Tables 5, 7) | [06_benchmarks](06_benchmarks) | Microbenchmark evaluation results + macrobenchmark for protected HACL* HMAC attestation. |
+| C6 | §6.4 (Tables 5 & 7) | [06_benchmarks](06_benchmarks) | Microbenchmark evaluation results + macrobenchmark for protected HACL* HMAC attestation. |
 
 ## Installation and setup instructions
 
