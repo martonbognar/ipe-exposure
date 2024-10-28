@@ -100,6 +100,7 @@ index_in_bounds:
     add #4, r7  ; get size of return argument
     mov.b ecall_table(r7), r6
     clear_caller_save_regs
+    clear_secret_regs
     disable_secret_stack
 ;     stop_timer
 ;     add &TA0R, &calling_entry_time
