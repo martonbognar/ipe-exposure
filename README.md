@@ -89,3 +89,9 @@ Reading secret from IPE : 1234
 * If you get an error about data verification, make sure that `Target > MSP43x Options > On connect, erase main, information, and IP protected area` is enabled in the debug configuration (dropdown next to Debug :beetle: button). This should already be the case for all CCS projects in this repository.
 
 ![debug_conf](ccs_debug_conf.png)
+
+## License
+
+Our own code is licensed under [GPLv3](LICENSE).
+The mitigation framework redistributes the `fake_libc_include` library of [pycparser](https://github.com/eliben/pycparser/), which uses [this license](https://github.com/eliben/pycparser/blob/main/LICENSE).
+The memory attestation application is based on [VRASED](https://github.com/sprout-uci/vrased) (GPL 3.0), which uses the [HACL*](https://github.com/hacl-star/hacl-star) (Apache 2.0) cryptographic library.
